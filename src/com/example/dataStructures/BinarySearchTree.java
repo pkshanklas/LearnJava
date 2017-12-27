@@ -71,10 +71,10 @@ public class BinarySearchTree <X extends Comparable<X>> {
             this.root = newNode;
         }
         else if(currNode.getParent().getRight() == currNode) {
-            currNode.getParent().setRight(currNode);
+            currNode.getParent().setRight(newNode);
         }
         else {
-            currNode.getParent().setLeft(currNode);
+            currNode.getParent().setLeft(newNode);
         }
     }
 
