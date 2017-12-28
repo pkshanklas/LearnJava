@@ -6,13 +6,21 @@ package com.example.learnjava;
 public class MathEquation {
     private double leftVal;
     private double rightVal;
-    private char opCode;
+    private char opCode='a';
     private double result;
 
-    public MathEquation(double leftVal, double rightVal, char opCode) {
+    public MathEquation() {
+
+    }
+
+    public MathEquation(char opCode) {
+        this.opCode = opCode;
+    }
+
+    public MathEquation(char opCode, double leftVal, double rightVal) {
+        this(opCode);
         this.leftVal = leftVal;
         this.rightVal = rightVal;
-        this.opCode = opCode;
     }
 
     public double getLeftVal() {
@@ -47,19 +55,35 @@ public class MathEquation {
         this.result = result;
     }
 
+    public void execute(double leftVal, double rightVal) {
+        this.leftVal = leftVal;
+        this.rightVal = rightVal;
+
+        execute();
+    }
+
+    public void execute(int leftVal, int rightVal) {
+        this.leftVal = leftVal;
+        this.rightVal = rightVal;
+
+        execute();
+
+        result = (int)result;
+    }
+
     public void execute() {
-        switch( this.getOpCode() ) {
+        switch( opCode ) {
             case 'a':
-                this.setResult( this.getLeftVal() + this.getRightVal() );
+                result = leftVal + rightVal;
                 break;
             case 'd':
-                this.setResult( this.getLeftVal() / this.getRightVal() );
+                result = leftVal / rightVal;
                 break;
             case 's':
-                this.setResult( this.getLeftVal() - this.getRightVal() );
+                result = leftVal - rightVal;
                 break;
             case 'm':
-                this.setResult( this.getLeftVal() * this.getRightVal() );
+                result = leftVal * rightVal;
                 break;
             default:
                 System.out.println("This operation is not supported");

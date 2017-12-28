@@ -6,10 +6,27 @@ package com.example.learnjava;
 public class Flight {
     private int passengers;
     private int seats;
+    private int flightNumber;
+    private int totalBags;
+    private int totalCarryOns;
+    private int maxCarryOns = seats * 2;
+    private boolean[] isSeatAvailable;
+
+    {
+        isSeatAvailable = new boolean[seats];
+
+        for(int i=0; i<seats; i++) {
+            isSeatAvailable[i] = true;
+        }
+    }
 
     public Flight() {
         passengers = 0;
         seats = 150;
+    }
+
+    public Flight(int flightNumber) {
+        this.flightNumber = flightNumber;
     }
 
     public int getPassengers() {
@@ -28,9 +45,54 @@ public class Flight {
         this.seats = seats;
     }
 
+    private boolean hasSeat() {
+        return this.passengers+1 < this.seats;
+    }
+
+    private boolean hashSeat(int count) {
+        return passengers + count < seats;
+    }
+
+    private boolean hashCarryOnSpace(int carryOns) {
+        return (totalCarryOns + carryOns) <= maxCarryOns;
+    }
+
     public void add1Passenger() {
-        if( passengers<150 ) {
-            passengers += 1;
+        if( hasSeat() ) {
+            setPassengers( getPassengers() + 1 );
+        }
+        else {
+            handleToMany();
+        }
+    }
+
+    public void add1Passenger(int bags) {
+        if( hasSeat() ) {
+            add1Passenger();
+            this.totalBags += bags;
+        }
+    }
+
+    public void add1Passenger(Passenger p) {
+        add1Passenger(p.getCheckedBags());
+    }
+
+    public void add1Passenger(int bags, int carryOns) {
+        if( hasSeat() && hashCarryOnSpace(carryOns) ) {
+            add1Passenger(bags);
+            totalCarryOns += carryOns;
+        }
+    }
+
+    public void add1Passenger(Passenger p, int carryOns) {
+        add1Passenger(p.getCheckedBags(), carryOns);
+    }
+
+    public void add1Passenger(Passenger... list) {
+        if( hashSeat(list.length) ) {
+            for(Passenger p: list) {
+                totalBags += p.getCheckedBags();
+            }
         }
         else {
             handleToMany();
@@ -55,19 +117,25 @@ public class Flight {
         return newFlight;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if( super.equals(obj) ) return true;
+
+        if ( !(obj instanceof Flight) ) return false;
+
+        return flightNumber == ((Flight)obj).flightNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight #" + this.flightNumber;
+    }
+
     public static void main(String[] args) {
-        Flight flight1 = new Flight();
-        flight1.add1Passenger();
-        System.out.println(flight1.getPassengers());
 
-        Flight flight2 = new Flight();
-        flight2.add1Passenger();
-        System.out.println(flight2.getPassengers());
-
-        flight2 = flight1;
-        flight1.add1Passenger();
-        flight1.add1Passenger();
-        System.out.println(flight2.getPassengers());
+        Integer a = Integer.valueOf(100);
+        int b = a.intValue();
+        Integer c = Integer.valueOf(b);
 
     }
 }
