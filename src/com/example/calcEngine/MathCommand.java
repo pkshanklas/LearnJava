@@ -1,9 +1,9 @@
-package com.example.learnjava;
+package com.example.calcEngine;
 
 /**
  * Created by premkum3 on 12/28/2017.
  */
-public enum MathCommand {
+enum MathCommand {
     Add,
     Subtract,
     Divide,
