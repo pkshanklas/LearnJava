@@ -11,6 +11,7 @@ public class Flight {
     private int totalCarryOns;
     private int maxCarryOns = seats * 2;
     private boolean[] isSeatAvailable;
+    static int allPassengers;
 
     {
         isSeatAvailable = new boolean[seats];
@@ -23,6 +24,16 @@ public class Flight {
     public Flight() {
         passengers = 0;
         seats = 150;
+    }
+
+
+
+    static int getAllPassengers() {
+        return allPassengers;
+    }
+
+    static void resetAllPassengers() {
+        allPassengers = 0;
     }
 
     public Flight(int flightNumber) {
@@ -60,6 +71,7 @@ public class Flight {
     public void add1Passenger() {
         if( hasSeat() ) {
             setPassengers( getPassengers() + 1 );
+            allPassengers += 1;
         }
         else {
             handleToMany();
